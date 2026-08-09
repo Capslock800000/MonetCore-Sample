@@ -1,0 +1,3 @@
+[submodule "monetcore"]
+	path = monetcore
+	url = https://github.com/Capslock800000/MonetCore.git
