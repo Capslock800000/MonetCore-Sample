@@ -79,8 +79,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             _uiState.update { it.copy(isLoading = true, loadingMessage = "正在从壁纸提取颜色…") }
 
             try {
-                val bundle = client.generateThemeFromWallpaper(_uiState.value.isDarkTheme)
-                val theme = ThemeColors.fromBundle(bundle)
+                val theme = client.generateThemeFromWallpaper(_uiState.value.isDarkTheme)
                 _uiState.update {
                     it.copy(
                         isLoading = false,
@@ -101,11 +100,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             _uiState.update { it.copy(isLoading = true, loadingMessage = "正在生成主题…") }
 
             try {
-                val bundle = client.generateThemeFromColor(
+                val theme = client.generateThemeFromColor(
                     seedColor = _uiState.value.seedColor,
                     darkTheme = _uiState.value.isDarkTheme
                 )
-                val theme = ThemeColors.fromBundle(bundle)
                 _uiState.update {
                     it.copy(
                         isLoading = false,
