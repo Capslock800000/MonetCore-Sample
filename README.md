@@ -9,64 +9,36 @@ MonetCore 官方示例应用。演示如何通过 `monet-client` SDK 跨进程�
 
 ## 效果预览
 
-- **启动页**：Google Play 风格「正在核对信息」无限旋转进度动画
+- **启动页**：Google Play 风格「正在核对信息」无限旋转进度动画，**自动检测 Monet Theme Service 安装状态**
 - **主界面**：展示从 Service 获取的完整 Material 3 色板，支持深浅模式切换与种子色更换
 
 ## 前置依赖
 
-本仓库仅包含 Sample App，**不包含** MonetCore 引擎本身。构建前请确保已引入 `monet-client`：
-
-### 方式一：Maven Central（推荐）
-
-```kotlin
-// settings.gradle.kts
-dependencyResolutionManagement {
-    repositories {
-        mavenCentral()
-        google()
-    }
-}
-
-// app/build.gradle.kts
-dependencies {
-    implementation("com.monettheme:monet-client:1.0.0")
-}
-```
-
-### 方式二：本地 Maven
+本仓库仅包含 Sample App，**不包含** MonetCore 引擎本身。引擎源码通过 Git Submodule 引入：
 
 ```bash
-# 1. 克隆 MonetCore 主仓库
-git clone https://github.com/Capslock800000/MonetCore.git
-cd MonetCore
-
-# 2. 发布到 mavenLocal
-./gradlew :monet-api:publishToMavenLocal :monet-client:publishToMavenLocal
+git clone --recursive https://github.com/Capslock800000/MonetCore-Sample.git
 ```
 
-然后在 Sample App 的 `settings.gradle.kts` 中启用 `mavenLocal()`：
+若已克隆但缺少子模块：
 
-```kotlin
-dependencyResolutionManagement {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        google()
-    }
-}
+```bash
+git submodule update --init --recursive
 ```
+
+### 运行前准备
+
+1. **先安装 `monet-service` APK**（来自 MonetCore 主仓库 `:monet-service:assembleDebug`）
+2. 再安装本 Sample App
+3. `com.monettheme.permission.GENERATE_THEME` 权限已在 `AndroidManifest.xml` 中声明（Android 6+ 自动处理）
+
+> **注意**：启动页会检测包名 `com.monettheme.service`，未安装时将弹出错误提示，无法继续。
 
 ## 构建
 
 ```bash
 ./gradlew :app:assembleDebug
 ```
-
-## 运行
-
-1. 先安装 `monet-service` APK（来自 MonetCore 主仓库 `:monet-service:assembleRelease`）
-2. 再安装本 Sample App
-3. `com.monettheme.permission.GENERATE_THEME` 权限已在 `AndroidManifest.xml` 中声明（Android 6+ 自动处理）
 
 ## 技术栈
 

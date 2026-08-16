@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Release Assets 上传需要
+      contents: write
 
     steps:
       - name: Checkout with submodules

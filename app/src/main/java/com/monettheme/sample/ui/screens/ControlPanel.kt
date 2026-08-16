@@ -39,14 +39,14 @@ fun ControlPanel(
     onGenerateFromColor: () -> Unit
 ) {
     val presetColors = listOf(
-        0xFF6750A4.toInt(), // Purple
-        0xFF4CAF50.toInt(), // Green
-        0xFF2196F3.toInt(), // Blue
-        0xFFFF9800.toInt(), // Orange
-        0xFFE91E63.toInt(), // Pink
-        0xFF9C27B0.toInt(), // Deep Purple
-        0xFF00BCD4.toInt(), // Cyan
-        0xFFFFEB3B.toInt(), // Yellow
+        0xFF6750A4.toInt(),
+        0xFF4CAF50.toInt(),
+        0xFF2196F3.toInt(),
+        0xFFFF9800.toInt(),
+        0xFFE91E63.toInt(),
+        0xFF9C27B0.toInt(),
+        0xFF00BCD4.toInt(),
+        0xFFFFEB3B.toInt(),
     )
 
     Column(
@@ -56,7 +56,6 @@ fun ControlPanel(
             .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
             .padding(16.dp)
     ) {
-        // 深浅模式
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -74,7 +73,6 @@ fun ControlPanel(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // 预设种子色
         Text(
             text = "选择种子色",
             style = MaterialTheme.typography.bodyLarge
@@ -105,7 +103,6 @@ fun ControlPanel(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // 操作按钮
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)

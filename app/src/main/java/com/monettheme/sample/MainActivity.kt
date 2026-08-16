@@ -34,9 +34,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    if (uiState.isLoading) {
+                    if (uiState.serviceInstalled == null || uiState.serviceInstalled == false || uiState.isLoading) {
                         SplashScreen(
                             message = uiState.loadingMessage,
+                            serviceInstalled = uiState.serviceInstalled,
                             onRetry = { viewModel.retryConnection() }
                         )
                     } else {

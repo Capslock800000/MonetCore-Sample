@@ -44,9 +44,8 @@ android {
 }
 
 dependencies {
-    // MonetCore SDK（本地子模块）
+    // MonetCore SDK (submodule)
     implementation(project(":monet-client"))
-    // 关键：monet-client 使用 implementation 依赖 monet-api，下游需显式引入
     implementation(project(":monet-api"))
 
     // Compose BOM
@@ -57,7 +56,7 @@ dependencies {
     // Material 3
     implementation("androidx.compose.material3:material3:1.4.0")
 
-    // Material Icons Extended（包含 DarkMode / LightMode 等图标）
+    // Material Icons Extended
     implementation("androidx.compose.material:material-icons-extended")
 
     // Compose UI

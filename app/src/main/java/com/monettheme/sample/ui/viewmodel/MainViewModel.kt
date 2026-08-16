@@ -1,6 +1,7 @@
 package com.monettheme.sample.ui.viewmodel
 
 import android.app.Application
+import android.content.pm.PackageManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.monettheme.api.ThemeColors
@@ -14,7 +15,8 @@ import kotlinx.coroutines.launch
 
 data class UiState(
     val isLoading: Boolean = true,
-    val loadingMessage: String = "正在连接 Monet Service…",
+    val loadingMessage: String = "正在检测服务…",
+    val serviceInstalled: Boolean? = null,
     val isConnected: Boolean = false,
     val themeColors: ThemeColors? = null,
     val isDarkTheme: Boolean = false,
@@ -29,14 +31,45 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     init {
-        connectToService()
+        viewModelScope.launch {
+            // 1. 检测 Monet Theme Service 包名
+            val installed = checkServiceInstalled()
+            if (!installed) {
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        serviceInstalled = false,
+                        loadingMessage = "未安装 Monet Theme Service"
+                    )
+                }
+                return@launch
+            }
+
+            _uiState.update { it.copy(serviceInstalled = true) }
+
+            // 2. 连接服务
+            connectToService()
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun checkServiceInstalled(): Boolean {
+        return try {
+            getApplication<Application>().packageManager.getPackageInfo(
+                "com.monettheme.service",
+                0
+            )
+            true
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
+        }
     }
 
     private fun connectToService() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, loadingMessage = "正在连接 Monet Service…") }
 
-            delay(1000)
+            delay(800)
 
             val connected = try {
                 client.connect()
@@ -48,7 +81,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 it.copy(
                     isLoading = false,
                     isConnected = connected,
-                    loadingMessage = if (connected) "连接成功" else "未安装 Monet Service，请先安装"
+                    loadingMessage = if (connected) "连接成功" else "连接失败"
                 )
             }
 
@@ -59,7 +92,22 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun retryConnection() {
-        connectToService()
+        _uiState.update { UiState() }
+        viewModelScope.launch {
+            val installed = checkServiceInstalled()
+            if (!installed) {
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        serviceInstalled = false,
+                        loadingMessage = "未安装 Monet Theme Service"
+                    )
+                }
+                return@launch
+            }
+            _uiState.update { it.copy(serviceInstalled = true) }
+            connectToService()
+        }
     }
 
     fun toggleTheme() {

@@ -12,9 +12,6 @@ import com.monettheme.api.ThemeColors
 private val DefaultLightColorScheme = lightColorScheme()
 private val DefaultDarkColorScheme = darkColorScheme()
 
-/**
- * 将 MonetCore 生成的 ThemeColors 转换为 Compose ColorScheme
- */
 fun ThemeColors.toColorScheme(isDark: Boolean): ColorScheme {
     val base = if (isDark) DefaultDarkColorScheme else DefaultLightColorScheme
     return base.copy(

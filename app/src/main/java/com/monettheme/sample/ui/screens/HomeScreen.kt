@@ -3,7 +3,6 @@ package com.monettheme.sample.ui.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -61,7 +60,6 @@ fun HomeScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
-            // 控制面板
             ControlPanel(
                 isDarkTheme = isDarkTheme,
                 seedColor = seedColor,
@@ -73,16 +71,13 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // 色板展示
             if (themeColors != null) {
                 Text(
                     text = "生成的 Material 3 色板",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
-
                 Spacer(modifier = Modifier.height(12.dp))
-
                 ColorPaletteGrid(themeColors = themeColors)
             } else {
                 Text(
